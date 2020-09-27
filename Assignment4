@@ -1,0 +1,122 @@
+ASSIGNMENT 4 BY ARIANNA BIERNACKI
+
+*---------QUESTION 1---------*
+	#!/bin/bash
+echo Enter your first name
+ read firstName
+echo Enter your last name
+ read lastName
+echo Hello $firstName, $lastName!
+
+*---------QUESTION 2---------*
+#!/bin/bash
+echo the total number of running processes is
+ps -e | wc -l
+
+*---------QUESTION 3---------*
+#!/bin/bash
+date
+echo $?
+date blah
+echo $?
+someonecommand
+echo $?
+
+*---------QUESTION 4---------*
+
+
+FILE: Arianna_Biernacki_Music
+
+1:Avicii:Stories:10/4/2015:7
+2:Chainsmokers:Sick_Boy:01/9/2019:11
+3:Walk_Off_The_Earth:Sing_It_All_Away:06/16/2015:7
+4:Ariana_Grande:thank_u,_next:02/8/2019:12
+5:Zara_Larsson:So_Good:03/17/2017:9
+6:Marshmello:Joytime:01/8/2016:8
+7:Justin_Bieber:Changes:02/14/2020:13
+8:Taylor_Swift:Fearless:11/11/2008:6
+9:Post_Malone:Hollywood's_Bleeding:09/6/2019:12
+10:Ed_Sheeran:Divide:03/3/2017:9
+
+
+FILE: Arianna_Biernacki_L4
+
+#!/bin/bash
+# SYST13416 -- Assignment #04
+# Arianna Biernacki
+# Arianna_Biernacki_L4
+
+#Menu Start
+while true
+do
+echo ------------------------------
+echo
+echo "      M A I N   M E N U"
+echo
+echo ------------------------------
+echo "   1. View Music Collection"
+echo "   2. View Cost of Collection"
+echo "   3. Search for CD based on Artist"
+echo "   4. Search for CD based on date"
+echo "   5. Exit"
+echo
+echo Enter your choice [1-5]:
+read choice
+echo
+
+#Switch Statement
+case $choice in
+
+#View contents of Music Collection File
+   1)   cat "Arianna_Biernacki_Music"
+	;;
+
+#View total cost of CDs
+   2)   prices=`cut -d: -f5 Arianna_Biernacki_Music`
+	sum=0
+	for price in $prices
+	do
+	   sum=$((sum + price))
+	done
+	echo
+	echo "The total price is $"$sum""
+	;;
+
+#Find CD by artist
+   3)   echo "Ok, what artist do you want to look up?"
+	artistMenu=`cut -d: -f2 Arianna_Biernacki_Music`
+	i=1
+	for artist in $artistMenu
+	do
+	   echo $i") $artist"
+	i=$((i+1))
+	done
+	echo "Make a selection [1-10]:"
+	read artistSelection
+	echo
+	echo "The CD is:"
+	grep \<$artistSelection\> Arianna_Biernacki_Music | cut -d: -f3 Arianna_Biernacki_Music | sed -n "${artistSelection}p"
+	;;
+
+#Find CD by purchase date
+   4)   echo "Ok, what purchase date do you want to look up?"
+	dateMenu=`cut -d: -f4 Arianna_Biernacki_Music`
+	i=1
+	for date in $dateMenu
+	do
+	   echo $i") $date"
+	i=$((i+1))
+	done
+	echo "Make a selection [1-10]:"
+	read dateSelection
+	echo
+	echo "The CD is:"
+	grep \<$dateSelection\> Arianna_Biernacki_Music | cut -d: -f3 Arianna_Biernacki_Music | sed -n "${dateSelection}p"
+	;;
+
+#Exit
+   5)   echo "Exit"
+	exit
+	;;
+esac
+done   
